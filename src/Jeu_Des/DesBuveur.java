@@ -24,6 +24,25 @@ public class DesBuveur {
 		this.difference = 0;
 	}
 	
+	public void jouer(){
+		this.nbDesRestant = this.nbDes;
+		while(this.nbDesRestant>0){
+			lancer();
+			valider();
+		}
+		resultat();
+		if(this.difference == 0){
+			System.out.println("Au suivant !");
+		}
+		else if(this.difference > 0){
+			System.out.println("Vous devez prendre " + this.difference + " gorgée(s)");
+		}
+		else{
+			attaquer();
+			getGorgee();
+			System.out.println("Vous devez donner " + getGorgee() + " gorgée(s)");
+		}
+	}
 	public void lancer(){
 		for(int i = 0; i< this.nbDes;i++){
 			if(!etatDes[i])
@@ -32,7 +51,6 @@ public class DesBuveur {
 			}
 		}
 		System.out.println(this.getSomme());
-		valider();
 	}
 	
 	public void valider(){
@@ -73,38 +91,59 @@ public class DesBuveur {
 		return this.nbDesRestant;
 	}
 	
-	public void lancer2(){
+	public void attaquer(){
+		this.difference = this.difference*-1;
+		for(int i = 0; i< this.nbDes;i++){
+			etatDes[i] = false;
+		}
+		System.out.println("Vous attaquez au " + this.difference);
+		boolean attaquer = true;
+		do{
+			lancer();
+			attaquer = validerAttaque();
+		}	
+		while(attaquer);
+	}
+	
+	public int getGorgee()
+	{
+		int res = 0;
+		for(int j = 0; j< this.nbDes;j++){
+			if(this.des[j].getValeur() == this.difference)
+				res += this.difference;
+		}
+		return res;
+	}
+	
+	public boolean validerAttaque(){
+		for(int j = 0; j< this.nbDes;j++){
+			if(!etatDes[j])
+				System.out.println(des[j].getValeur());
+		}
+		boolean rejouer = false;
 		for(int i = 0; i< this.nbDes;i++){
 			if(!etatDes[i])
 			{
-				des[i].lancer();
+				if(this.des[i].getValeur() == this.difference){
+					this.etatDes[i] = true;
+					rejouer = true;
+				}
+					
 			}
 		}
-		System.out.println(this.getSomme());
-		valider();
+		return rejouer;
 	}
 	
-	public void nbCoup(){
+	public void resultat(){
 		this.difference = 26 - this.getSomme();
-		if(this.getSomme()==0){
-			System.out.println("Au suivant !");
-		}
-		else if(this.getSomme()>0){
-			System.out.println(Math.abs(difference));
-		}
-		else{
-			System.out.println("A faire");
-		}
+		System.out.println(this.difference);
 	}
 	
 	public static void main(String[] args) {
 		DesBuveur jeu = new DesBuveur();
 		//jeu.getLancer(5);
 		//jeu.DesBuveur();
-		while(jeu.getNbRestant()>0){
-			jeu.lancer();
-		}
-		jeu.nbCoup();
+		jeu.jouer();
 	}
 
 }
