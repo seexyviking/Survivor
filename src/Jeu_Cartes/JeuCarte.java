@@ -9,6 +9,7 @@ public class JeuCarte {
 	private int taillePaquet ;
 	
 	public JeuCarte(int taillePaquet){
+		this.listeCartes = new ArrayList<Carte>();
 		this.taillePaquet = taillePaquet ; 
 		if(taillePaquet == 52){
 			for(SYMBOLE s : SYMBOLE.values()){
@@ -44,6 +45,7 @@ public class JeuCarte {
 				
 			}
 		}
+		melanger();
 	}
 	
 

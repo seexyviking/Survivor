@@ -24,6 +24,8 @@ public class Carte {
 		return symbole;
 	}
 	
-	
+	public int compare(Carte c){
+		
+	}
 	
 }

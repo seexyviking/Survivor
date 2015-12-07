@@ -1,5 +1,7 @@
 package Jeu_Cartes;
 
+import java.util.ArrayList;
+
 public class Joueur {
 	
 	private String nom ;
@@ -18,8 +20,12 @@ public class Joueur {
 		this.main.add(c);
 	}
 	
+	public Carte getCarte(int position){
+		return this.main.get(position);
+	}
+	
 	public void supprimerCarte(int position){
-		this.main.detete(position);
+		this.main.remove(position);
 	}
 	
 }
