@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 
-public class PyramideT1 extends JFrame {
+public class PyramideT3 extends JFrame {
 
 	private JPanel contentPane;
 
@@ -22,7 +22,7 @@ public class PyramideT1 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PyramideT1 frame = new PyramideT1();
+					PyramideT3 frame = new PyramideT3();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,7 +34,7 @@ public class PyramideT1 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PyramideT1() {
+	public PyramideT3() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -42,45 +42,45 @@ public class PyramideT1 extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNoir = new JButton("Noir");
-		btnNoir.addActionListener(new ActionListener() {
+		JButton btnInterieur = new JButton("Interieur");
+		btnInterieur.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean res;
-				//lancer test epreuve1 "Noir"
+				//lancer test epreuve3 "Interieur"
 				res = true;
 				//popup boire ou donner
 				showResult(res);
-				//go frame epreuve2
-				goT2();
+				//go frame epreuve4
+				goT4();
 			}
 		});
-		btnNoir.setBounds(66, 92, 116, 72);
-		contentPane.add(btnNoir);
+		btnInterieur.setBounds(66, 92, 116, 72);
+		contentPane.add(btnInterieur);
 		
-		JButton btnRouge = new JButton("Rouge");
-		btnRouge.addActionListener(new ActionListener() {
+		JButton btnExterieur = new JButton("Exterieur");
+		btnExterieur.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean res;
-				//lancer test epreuve1 "Rouge"
+				//lancer test epreuve3 "Exterieur"
 				res = true;
 				//popup boire ou donner
 				showResult(res);
-				//go frame epreuve2
-				goT2();
+				//go frame epreuve4
+				goT4();
 				
 			}
 		});
-		btnRouge.setBounds(241, 92, 116, 72);
-		contentPane.add(btnRouge);
+		btnExterieur.setBounds(241, 92, 116, 72);
+		contentPane.add(btnExterieur);
 		
-		JLabel lblNEpreuve = new JLabel("Noir ou Rouge ?");
+		JLabel lblNEpreuve = new JLabel("Interieur ou Exterieur ?");
 		lblNEpreuve.setBounds(169, 39, 84, 14);
 		contentPane.add(lblNEpreuve);
 	}
 	
-	private void goT2(){
-		PyramideT2 pt2 = new PyramideT2();
-		pt2.setVisible(true);
+	private void goT4(){
+		//PyramideT3 pt3 = new PyramideT3();
+		//pt3.setVisible(true);
 		dispose();
 	}
 	

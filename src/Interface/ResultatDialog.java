@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Dialog.ModalityType;
 
 public class ResultatDialog extends JDialog {
 
@@ -32,6 +33,7 @@ public class ResultatDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public ResultatDialog(String resultat) {
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setTitle("Survivor");
 		setBounds(100, 100, 318, 110);
 		getContentPane().setLayout(new BorderLayout());
@@ -48,7 +50,11 @@ public class ResultatDialog extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("Cancel");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
