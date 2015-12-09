@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Jeu_Cartes.Pyramide;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -16,25 +19,11 @@ public class PyramideT2 extends JFrame {
 	private JPanel contentPane;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PyramideT2 frame = new PyramideT2();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
-	public PyramideT2() {
+	public PyramideT2(Pyramide p) {
+		p.setJoueurCourant(0);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -42,16 +31,26 @@ public class PyramideT2 extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JLabel lblJoueur = new JLabel(p.getJoueurs().get(p.getJoueurCourant()).getNom());
+		lblJoueur.setBounds(10, 11, 371, 14);
+		contentPane.add(lblJoueur);
+		
+		JLabel lblNEpreuve = new JLabel("Plus ou Moins que "+p.getJoueurs().get(p.getJoueurCourant()).getCarte(0).getValeur()+ " ?");
+		lblNEpreuve.setBounds(158, 39, 209, 14);
+		contentPane.add(lblNEpreuve);
+		
 		JButton btnPlus = new JButton("Plus");
 		btnPlus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean res;
-				//lancer test epreuve2 "Plus"
-				res = true;
-				//popup boire ou donner
+				res = p.tour2("plus");
+				p.getJoueurs().get(p.getJoueurCourant()-1).trier();
 				showResult(res);
-				//go frame epreuve3
-				goT3();
+				if(p.getJoueurCourant()==p.getJoueurs().size()) goT3(p);
+				else{
+					lblJoueur.setText(p.getJoueurs().get(p.getJoueurCourant()).getNom());
+					lblNEpreuve.setText("Plus ou Moins que "+p.getJoueurs().get(p.getJoueurCourant()).getCarte(0).getValeur()+ " ?");
+				}
 			}
 		});
 		btnPlus.setBounds(66, 92, 116, 72);
@@ -61,25 +60,24 @@ public class PyramideT2 extends JFrame {
 		btnMoins.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean res;
-				//lancer test epreuve2 "Moins"
-				res = true;
-				//popup boire ou donner
+				res = p.tour2("moins");
+				p.getJoueurs().get(p.getJoueurCourant()-1).trier();
 				showResult(res);
-				//go frame epreuve3
-				goT3();
+				if(p.getJoueurCourant()==p.getJoueurs().size()) goT3(p);
+				else{
+					lblJoueur.setText(p.getJoueurs().get(p.getJoueurCourant()).getNom());
+					lblNEpreuve.setText("Plus ou Moins que "+p.getJoueurs().get(p.getJoueurCourant()).getCarte(0).getValeur()+ " ?");
+				}
 			}
 		});
 		btnMoins.setBounds(241, 92, 116, 72);
 		contentPane.add(btnMoins);
 		
-		JLabel lblNEpreuve = new JLabel("Plus ou Moins que ?");
-		lblNEpreuve.setBounds(158, 39, 127, 14);
-		contentPane.add(lblNEpreuve);
 	}
 	
 	
-	private void goT3(){
-		PyramideT3 pt3 = new PyramideT3();
+	private void goT3(Pyramide p){
+		PyramideT3 pt3 = new PyramideT3(p);
 		pt3.setVisible(true);
 		dispose();
 	}

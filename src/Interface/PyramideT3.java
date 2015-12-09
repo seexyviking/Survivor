@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Jeu_Cartes.Pyramide;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -18,7 +21,7 @@ public class PyramideT3 extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -29,12 +32,14 @@ public class PyramideT3 extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
 	 */
-	public PyramideT3() {
+	public PyramideT3(Pyramide p) {
+		p.setJoueurCourant(0);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -42,16 +47,25 @@ public class PyramideT3 extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JLabel lblNEpreuve = new JLabel("Entre "+p.getJoueurs().get(p.getJoueurCourant()).getCarte(0).getValeur()+ " et " + p.getJoueurs().get(p.getJoueurCourant()).getCarte(1).getValeur() + " ou à l'extérieur ?");
+		lblNEpreuve.setBounds(169, 39, 255, 14);
+		contentPane.add(lblNEpreuve);
+		
+		JLabel lblJoueur = new JLabel(p.getJoueurs().get(p.getJoueurCourant()).getNom());
+		lblJoueur.setBounds(10, 11, 387, 14);
+		contentPane.add(lblJoueur);
+		
 		JButton btnInterieur = new JButton("Interieur");
 		btnInterieur.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean res;
-				//lancer test epreuve3 "Interieur"
-				res = true;
-				//popup boire ou donner
+				res = p.tour3("interieur");
 				showResult(res);
-				//go frame epreuve4
-				goT4();
+				if(p.getJoueurCourant()==p.getJoueurs().size()) goT4(p);
+				else{
+					lblJoueur.setText(p.getJoueurs().get(p.getJoueurCourant()).getNom());
+					lblNEpreuve.setText("Entre "+p.getJoueurs().get(p.getJoueurCourant()).getCarte(0).getValeur()+ " et " + p.getJoueurs().get(p.getJoueurCourant()).getCarte(1).getValeur() + " ou à l'extérieur ?");
+				}
 			}
 		});
 		btnInterieur.setBounds(66, 92, 116, 72);
@@ -61,26 +75,22 @@ public class PyramideT3 extends JFrame {
 		btnExterieur.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean res;
-				//lancer test epreuve3 "Exterieur"
-				res = true;
-				//popup boire ou donner
+				res = p.tour3("exterieur");
 				showResult(res);
-				//go frame epreuve4
-				goT4();
-				
+				if(p.getJoueurCourant()==p.getJoueurs().size()) goT4(p);
+				else{
+					lblJoueur.setText(p.getJoueurs().get(p.getJoueurCourant()).getNom());
+					lblNEpreuve.setText("Entre "+p.getJoueurs().get(p.getJoueurCourant()).getCarte(0).getValeur()+ " et " + p.getJoueurs().get(p.getJoueurCourant()).getCarte(1).getValeur() + " ou à l'extérieur ?");
+				}
 			}
 		});
 		btnExterieur.setBounds(241, 92, 116, 72);
 		contentPane.add(btnExterieur);
-		
-		JLabel lblNEpreuve = new JLabel("Interieur ou Exterieur ?");
-		lblNEpreuve.setBounds(169, 39, 84, 14);
-		contentPane.add(lblNEpreuve);
 	}
 	
-	private void goT4(){
-		//PyramideT3 pt3 = new PyramideT3();
-		//pt3.setVisible(true);
+	private void goT4(Pyramide p ){
+		PyramideT4 pt4 = new PyramideT4(p);
+		pt4.setVisible(true);
 		dispose();
 	}
 	

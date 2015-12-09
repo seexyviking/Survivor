@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Jeu_Cartes.Pyramide;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -16,25 +19,11 @@ public class PyramideT4 extends JFrame {
 	private JPanel contentPane;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PyramideT4 frame = new PyramideT4();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
-	public PyramideT4() {
+	public PyramideT4(Pyramide p) {
+		p.setJoueurCourant(0);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -42,16 +31,24 @@ public class PyramideT4 extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JLabel lblJoueur = new JLabel(p.getJoueurs().get(p.getJoueurCourant()).getNom());
+		lblJoueur.setBounds(10, 11, 414, 14);
+		contentPane.add(lblJoueur);
+		
+		JLabel lblNEpreuve = new JLabel("Chosir symbole");
+		lblNEpreuve.setBounds(169, 39, 128, 14);
+		contentPane.add(lblNEpreuve);
+		
 		JButton btnTrefle = new JButton("Trefle");
 		btnTrefle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean res;
-				//lancer test epreuve4 "Trefle"
-				res = true;
-				//popup boire ou donner
+				res = p.tour4("trefle");
 				showResult(res);
-				//fin epreuve
-				dispose();
+				if(p.getJoueurCourant()==p.getJoueurs().size()) dispose();
+				else{
+					lblJoueur.setText(p.getJoueurs().get(p.getJoueurCourant()).getNom());
+				}
 			}
 		});
 		btnTrefle.setBounds(64, 64, 116, 72);
@@ -61,31 +58,27 @@ public class PyramideT4 extends JFrame {
 		btnCoeur.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean res;
-				//lancer test epreuve4 "Coeur"
-				res = true;
-				//popup boire ou donner
+				res = p.tour4("coeur");
 				showResult(res);
-				//fin epreuve
-				dispose();
+				if(p.getJoueurCourant()==p.getJoueurs().size()) dispose();
+				else{
+					lblJoueur.setText(p.getJoueurs().get(p.getJoueurCourant()).getNom());
+				}
 			}
 		});
 		btnCoeur.setBounds(232, 64, 116, 72);
 		contentPane.add(btnCoeur);
 		
-		JLabel lblNEpreuve = new JLabel("Chosir symbole");
-		lblNEpreuve.setBounds(169, 39, 84, 14);
-		contentPane.add(lblNEpreuve);
-		
 		JButton btnPique = new JButton("Pique");
 		btnPique.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean res;
-				//lancer test epreuve4 "Pique"
-				res = true;
-				//popup boire ou donner
+				res = p.tour4("pique");
 				showResult(res);
-				//fin epreuve
-				dispose();
+				if(p.getJoueurCourant()==p.getJoueurs().size()) dispose();
+				else{
+					lblJoueur.setText(p.getJoueurs().get(p.getJoueurCourant()).getNom());
+				}
 			}
 		});
 		btnPique.setBounds(64, 166, 116, 72);
@@ -95,16 +88,18 @@ public class PyramideT4 extends JFrame {
 		btnCarreau.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean res;
-				//lancer test epreuve4 "Carreau"
-				res = true;
-				//popup boire ou donner
+				res = p.tour4("carreau");
 				showResult(res);
-				//fin epreuve
-				dispose();
+				if(p.getJoueurCourant()==p.getJoueurs().size()) dispose();
+				else{
+					lblJoueur.setText(p.getJoueurs().get(p.getJoueurCourant()).getNom());
+				}
 			}
 		});
 		btnCarreau.setBounds(232, 166, 116, 72);
 		contentPane.add(btnCarreau);
+		
+		
 	}
 	
 	

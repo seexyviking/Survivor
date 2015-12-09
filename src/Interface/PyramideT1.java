@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Jeu_Cartes.Pyramide;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -16,25 +19,9 @@ public class PyramideT1 extends JFrame {
 	private JPanel contentPane;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PyramideT1 frame = new PyramideT1();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
-	public PyramideT1() {
+	public PyramideT1(Pyramide p) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -42,44 +29,47 @@ public class PyramideT1 extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JLabel lblJoueur = new JLabel(p.getJoueurs().get(p.getJoueurCourant()).getNom());
+		lblJoueur.setBounds(10, 11, 389, 14);
+		contentPane.add(lblJoueur);
+		
+		//Button click noir
 		JButton btnNoir = new JButton("Noir");
 		btnNoir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean res;
-				//lancer test epreuve1 "Noir"
-				res = true;
-				//popup boire ou donner
+				res = p.tour1("noir");
 				showResult(res);
-				//go frame epreuve2
-				goT2();
+				if(p.getJoueurCourant()==p.getJoueurs().size()) goT2(p);
+				else lblJoueur.setText(p.getJoueurs().get(p.getJoueurCourant()).getNom());
 			}
 		});
 		btnNoir.setBounds(66, 92, 116, 72);
 		contentPane.add(btnNoir);
 		
+		//Button click rouge
 		JButton btnRouge = new JButton("Rouge");
 		btnRouge.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean res;
-				//lancer test epreuve1 "Rouge"
-				res = true;
-				//popup boire ou donner
+				res = p.tour1("rouge");
 				showResult(res);
-				//go frame epreuve2
-				goT2();
-				
+				if(p.getJoueurCourant()==p.getJoueurs().size()) goT2(p);
+				else lblJoueur.setText(p.getJoueurs().get(p.getJoueurCourant()).getNom());
 			}
 		});
 		btnRouge.setBounds(241, 92, 116, 72);
 		contentPane.add(btnRouge);
 		
 		JLabel lblNEpreuve = new JLabel("Noir ou Rouge ?");
-		lblNEpreuve.setBounds(169, 39, 84, 14);
+		lblNEpreuve.setBounds(169, 39, 140, 14);
 		contentPane.add(lblNEpreuve);
+		
+		
 	}
 	
-	private void goT2(){
-		PyramideT2 pt2 = new PyramideT2();
+	private void goT2(Pyramide p){
+		PyramideT2 pt2 = new PyramideT2(p);
 		pt2.setVisible(true);
 		dispose();
 	}
@@ -94,5 +84,4 @@ public class PyramideT1 extends JFrame {
 		}
 		rd.setVisible(true);
 	}
-	
 }

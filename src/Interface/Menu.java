@@ -3,9 +3,14 @@ package Interface;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
+import Jeu_Cartes.Joueur;
+import Jeu_Cartes.Pyramide;
+
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class Menu {
@@ -47,7 +52,12 @@ public class Menu {
 		JButton btnPyramide = new JButton("Pyramide");
 		btnPyramide.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PyramideT1 pt1 = new PyramideT1();
+				ArrayList<Joueur> listeJ = new ArrayList<Joueur>();
+				listeJ.add(new Joueur("Mario"));
+				listeJ.add(new Joueur("Damien"));
+				listeJ.add(new Joueur("Jonathan"));
+				Pyramide p = new Pyramide(listeJ);
+				PyramideT1 pt1 = new PyramideT1(p);
 				pt1.setVisible(true);
 			}
 		});
