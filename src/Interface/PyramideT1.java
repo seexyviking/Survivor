@@ -16,6 +16,9 @@ import javax.swing.JLabel;
 
 public class PyramideT1 extends JFrame {
 
+	
+	
+	
 	private JPanel contentPane;
 
 	/**
