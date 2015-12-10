@@ -1,80 +1,91 @@
 package Jeu_Des;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DesBuveur {
 	
-	private static int nbDes = 5;
-	private static int nbFaces = 6;
+	private final int nbDes = 5;
+	private final int nbFaces = 6;
 	private int nbDesRestant;
-	private De[] des;
-	private boolean[] etatDes; 
+	private De[] des; 
 	private Scanner sc;
 	private int difference;
+	private ArrayList<Joueur> joueurs ;
 	
-	public DesBuveur(){
+	public DesBuveur(ArrayList<Joueur> joueurs){
 		this.des = new De[this.nbDes];
-		this.etatDes = new boolean[this.nbDes];
 		this.nbDesRestant = this.nbDes;
 		for(int i = 0; i<this.nbDes; i++){
 			des[i] = new De(this.nbFaces);
-			etatDes[i] = false;
+			this.des[i].conserver = false;
 		}
 		this.sc = new Scanner(System.in);
 		this.difference = 0;
+		this.joueurs = joueurs;
 	}
-	
+
 	public void jouer(){
-		this.nbDesRestant = this.nbDes;
-		while(this.nbDesRestant>0){
-			lancer();
-			valider();
+		//ListJoueurs(this.joueurs);
+		for(int j = 0; j<this.joueurs.size(); j++){
+			for(De de : this.des){
+				de.conserver = false ;
+			}
+			this.nbDesRestant = this.nbDes;
+			System.out.println(this.joueurs.get(j).getNom() + " : c'est votre tour!");
+			while(this.nbDesRestant>0){
+				lancer();
+				valider();
+			}
+			resultat();
+			if(this.difference == 0){
+				System.out.println("Au suivant !");
+			}
+			else if(this.difference > 0){
+				System.out.println("Vous devez prendre " + this.difference + " gorgée(s)");
+			}
+			else{
+				attaquer();
+				getGorgee();
+				System.out.println("Vous devez donner " + getGorgee() + " gorgée(s)");
+			}
 		}
-		resultat();
-		if(this.difference == 0){
-			System.out.println("Au suivant !");
-		}
-		else if(this.difference > 0){
-			System.out.println("Vous devez prendre " + this.difference + " gorgée(s)");
-		}
-		else{
-			attaquer();
-			getGorgee();
-			System.out.println("Vous devez donner " + getGorgee() + " gorgée(s)");
-		}
-	}
+	}	
+	
 	public void lancer(){
 		for(int i = 0; i< this.nbDes;i++){
-			if(!etatDes[i])
+			if(!this.des[i].conserver)
 			{
 				des[i].lancer();
 			}
 		}
-		System.out.println(this.getSomme());
 	}
 	
 	public void valider(){
 		boolean conserver = false;
 		System.out.println("Validation :");
 		for(int j = 0; j< this.nbDes;j++){
-			if(!etatDes[j])
+			if(!this.des[j].conserver)
 			System.out.println(des[j].getValeur());
 		}
+		System.out.println("La somme de vos dés vaut : " + this.getSomme());
+		int positionDeRestant = 0;
 		for(int i = 0; i< this.nbDes;i++){
-			if(!etatDes[i])
+			if(!this.des[i].conserver)
 			{
-				System.out.println("Valeur à conserver : " + des[i].getValeur());
-				System.out.println("Voulez vous le concerver (true/false)");
+				System.out.println("Voulez-vous concerver la valeur " + des[i].getValeur() + " : (true/false)");
 				boolean res = false;
-				if(conserver == false && i == this.nbDesRestant - 1)
+				if(conserver == false && positionDeRestant == this.nbDesRestant - 1){
 					res = true;
+				}
 				else
 					res = sc.nextBoolean();
 				if(res){
-					this.etatDes[i]=true;
+					this.des[i].conserver=true;
 					conserver = true;
 					this.nbDesRestant = this.nbDesRestant - 1;
 				}
+				positionDeRestant++;
 			}
 		}
 	}
@@ -88,13 +99,13 @@ public class DesBuveur {
 	}
 	
 	public int getNbRestant(){
-		return this.nbDesRestant;
+		return this.nbDesRestant; 
 	}
 	
 	public void attaquer(){
 		this.difference = this.difference*-1;
 		for(int i = 0; i< this.nbDes;i++){
-			etatDes[i] = false;
+			this.des[i].conserver = false;
 		}
 		System.out.println("Vous attaquez au " + this.difference);
 		boolean attaquer = true;
@@ -116,34 +127,41 @@ public class DesBuveur {
 	}
 	
 	public boolean validerAttaque(){
+		System.out.println("Résultat lancer : ");
 		for(int j = 0; j< this.nbDes;j++){
-			if(!etatDes[j])
+			if(!this.des[j].conserver)
 				System.out.println(des[j].getValeur());
 		}
-		boolean rejouer = false;
+		boolean rejouer = false; 
 		for(int i = 0; i< this.nbDes;i++){
-			if(!etatDes[i])
+			if(!this.des[i].conserver)
 			{
 				if(this.des[i].getValeur() == this.difference){
-					this.etatDes[i] = true;
+					this.des[i].conserver = true;
 					rejouer = true;
-				}
-					
+				}	
 			}
 		}
 		return rejouer;
 	}
 	
 	public void resultat(){
-		this.difference = 26 - this.getSomme();
-		System.out.println(this.difference);
+		this.difference = 24 - this.getSomme();
 	}
 	
 	public static void main(String[] args) {
-		DesBuveur jeu = new DesBuveur();
-		//jeu.getLancer(5);
-		//jeu.DesBuveur();
+		Scanner sc = new Scanner(System.in);
+		ArrayList<Joueur> listeJ = new ArrayList<Joueur>();
+		System.out.println("Combien de joueurs : ");
+		int nbJoueurs = sc.nextInt();
+		for(int i = 0; i<nbJoueurs; i++){
+			String nomJoueur;
+			System.out.println("Nom du joueur " + (i+1) + ": ");
+			listeJ.add(new Joueur(nomJoueur = sc.next()));
+		}
+		DesBuveur jeu = new DesBuveur(listeJ);
 		jeu.jouer();
+		sc.close();
 	}
 
 }

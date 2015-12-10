@@ -4,13 +4,16 @@ public class De {
 
 	private int nbFace;
 	private int valeur;
+	public boolean conserver;
 	
 	public De(){
 		this.nbFace = 6;
+		this.conserver = false;
 	}
 	
 	public De(int nbFace){
 		this.nbFace = nbFace;
+		this.conserver = false;
 	}
 	
 	public int getValeur(){
@@ -19,12 +22,6 @@ public class De {
 	
 	public void lancer(){
 		this.valeur = 1 + (int)(Math.random()*this.nbFace);
-	}
-	
-	public static void main(String[] args) {
-		De de = new De(6);
-		de.lancer();
-		System.out.println(de.getValeur());
 	}
 
 }
